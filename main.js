@@ -12,17 +12,84 @@ const rl = readline.createInterface({
 
 
 const pigLatin = (word) => {
+  let cleanWord = word.trim().toLowerCase();
 
-  // Your code here
+  let translation = "";
 
+  let smallestNonNegative = (num1,num2) => {
+
+  if(num1 < 0) {
+    return num2
+  }
+
+  if(num2 < 0) {
+    return num1;
+  }
+
+  if(num1 < num2) {
+    return num1;
+  } else {
+    return num2
+  }
 }
+
+
+let indexOfFirstVowel = (word) =>{
+  let vowelIndex = -1;
+
+  const aIndex = word.indexOf("a");
+  const eIndex = word.indexOf("e");
+  const iIndex = word.indexOf("i");
+  const oIndex = word.indexOf("o");
+  const uIndex = word.indexOf("u");
+
+  vowelIndex = smallestNonNegative(vowelIndex, aIndex);
+  vowelIndex = smallestNonNegative(vowelIndex, eIndex);
+  vowelIndex = smallestNonNegative(vowelIndex, iIndex);
+  vowelIndex = smallestNonNegative(vowelIndex, oIndex);
+  vowelIndex = smallestNonNegative(vowelIndex, uIndex);
+
+  return vowelIndex;
+}
+
+let vowel = indexOfFirstVowel(cleanWord);
+
+if(vowel == 0) {
+  translation = cleanWord + "yay";
+  return translation;
+} else {
+  translation = cleanWord.substring(vowel) + cleanWord.substring(0,vowel) + "ay";
+  return translation;
+}
+}
+
+//returns the part of the string between the start and end indexes, or to the end of the string//
+//we have a method that can be used to split the word, at a index//
+
+//write a function that will take in a single word (as a string)
+//and return the piglatin translation of the word
+
+/**
+* Rules:
+* if the word starts with a vowel, add ~yay to the end
+* example : egg -> eggyay, eplhant -> elephantyay
+
+* if the word has a vowel, then split the word into 2 parts at the vowel
+* then swap the 2 parts, then concat (add) ~ay to the end
+* example: fox -> f + ox -> oxf -> oxfay
+* conditional -> c + onditional -> onditionalc -> onditionalcay
+*
+* if the word has no vowel, then add -ay to the end
+* tsk -> tskay
+* pftt -> pfttay
+*/
 
 // the first function called in the program to get an input from the user
 // to run the function use the command: node main.js
 // to close it ctrl + C
 const getPrompt = () => {
   rl.question('word ', (answer) => {
-    console.log( pigLatin(answer) );
+    console.log(pigLatin(answer));
     getPrompt();
   });
 }
@@ -57,15 +124,3 @@ if (typeof describe === 'function') {
 }
 
 
-
-
-
-
-// **********
-//   HINTS
-// **********
-
-// break your code into pieces and focus on one piece at a time...
-// 1. if word begins with a vowel send to one function: adds "yay"
-// 2. if word begins in with a consonant send to another function: splices off beginning, returns word with new ending.
-// 3. if multiple words, create array of words, loop over them, sending them to different functions and creating a new array with the new words.
