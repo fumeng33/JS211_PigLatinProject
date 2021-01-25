@@ -11,6 +11,7 @@ const rl = readline.createInterface({
 });
 
 
+
 const pigLatin = (word) => {
   let cleanWord = word.trim().toLowerCase();
 
